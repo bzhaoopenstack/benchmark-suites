@@ -1,6 +1,6 @@
 #! /bin/bash
 
-#set -x
+#set -ex
 
 if [[ $# -ne 1 ]] ; then
     echo 'usage: combi_1 <test-case-name>'
@@ -9,14 +9,14 @@ fi
 
 TESTCASE=$1
 
-export MYSQL_HOST="192.168.1.73"
+export MYSQL_HOST="127.0.0.1"
 export MYSQL_PORT=4000
 export MYSQL_USER="root"
 export MYSQL_DB=$TESTCASE
 export MYSQL_PASSWD=""
 
 export TABLES=10
-export TABLE_SIZE=10000000
+export TABLE_SIZE=100000
 export TIME_PER_TC=60
 export TC_TO_RUN="rw upd upd-ni ro ps"
 

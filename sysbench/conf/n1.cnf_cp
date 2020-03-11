@@ -1,8 +1,8 @@
 
 # mysqld configuration
 [mysqld]
-basedir=/home/mysql-master/mysql/
-datadir=/data/mysql-master/mysql/
+basedir=/opt/projects/mysql/80/mysqlonarm/installed/
+datadir=/data/mysql-data/node1/dn1/
 port=4000
 socket=/tmp/n1.sock
 mysqlx-port=4001
