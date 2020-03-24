@@ -3,7 +3,7 @@
 # threads is based on number of cpus
 THDS=`nproc`
 
-sysbench --threads=$THDS --rate=0 --report-interval=1 --db-driver=mysql \
-         --mysql-host=$MYSQL_HOST --mysql-port=$MYSQL_PORT --mysql-db=$MYSQL_DB \
-         --mysql-user=$MYSQL_USER --mysql-password=$MYSQL_PASSWD \
-         /home/sysbench-install/share/sysbench/oltp_insert.lua --tables=$TABLES --table-size=$TABLE_SIZE prepare
+sysbench --threads=$THDS --rate=0 --report-interval=1 --db-driver=pgsql \
+         --pgsql-host=$DB_HOST --pgsql-port=$DB_PORT --pgsql-db=$TEST_DB \
+         --pgsql-user=$DB_USER --pgsql-password=$DB_PASSWD \
+         "$SYSBENCH_INSTALL_DIR/share/sysbench/oltp_insert.lua" --tables=$TABLES --table-size=$TABLE_SIZE prepare

@@ -5,7 +5,7 @@ THDS=`nproc`
 
 # warm-up should run readonly workload to load pages into memory/buffer-pool.
 
-sysbench --threads=$THDS --time=$1 --rate=0 --report-interval=5 --db-driver=mysql --rand-type=uniform \
-         --mysql-host=$MYSQL_HOST --mysql-port=$MYSQL_PORT --mysql-db=$MYSQL_DB \
-         --mysql-user=$MYSQL_USER --mysql-password=$MYSQL_PASSWD \
-         /home/sysbench-install/share/sysbench/oltp_read_only.lua --tables=$TABLES --table-size=$TABLE_SIZE run
+sysbench --threads=$THDS --time=$1 --rate=0 --report-interval=5 --db-driver=pgsql --rand-type=uniform \
+         --pgsql-host=$DB_HOST --pgsql-port=$DB_PORT --pgsql-db=$TEST_DB \
+         --pgsql-user=$DB_USER --pgsql-password=$DB_PASSWD \
+         "$SYSBENCH_INSTALL_DIR/share/sysbench/oltp_read_only.lua" --tables=$TABLES --table-size=$TABLE_SIZE run

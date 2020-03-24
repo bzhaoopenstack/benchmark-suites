@@ -1,5 +1,3 @@
-#! /bin/bash
-
 #set -ex
 
 if [[ $# -ne 1 ]] ; then
@@ -8,12 +6,12 @@ if [[ $# -ne 1 ]] ; then
 fi
 
 TESTCASE=$1
-
-export MYSQL_HOST="127.0.0.1"
-export MYSQL_PORT=4000
-export MYSQL_USER="root"
-export MYSQL_DB=$TESTCASE
-export MYSQL_PASSWD=""
+export SYSBENCH_INSTALL_DIR="/home/greenplum/sysbench/sysbench-bin/"
+export DB_HOST="127.0.0.1"
+export DB_PORT=5432
+export DB_USER="greenplum"
+export TEST_DB=$TESTCASE
+export DB_PASSWD=""
 
 export TABLES=10
 export TABLE_SIZE=100000
@@ -23,7 +21,7 @@ export TC_TO_RUN="rw upd upd-ni ro ps"
 # sleep between 2 sub-testcase run (like while switching from rw -> ro)
 changeover=60
 # warmup time
-warmuptime=120
+warmuptime=60
 
 if [ -d "output/$TESTCASE" ]; then
   echo 'previous run for same test-case is present. please remove it and restart'
@@ -34,14 +32,14 @@ fi
 # execution start. avoid modifying anything post this point. All your enviornment
 # variable should be set above.
 
-#=======================
-# step-1
-#=======================
-
-# if there is no mysql client on local machine then adjust MYSQL_BASE_DIR accordingly.
-export MYSQL_BASE_DIR=`grep "basedir" conf/n1.cnf | cut -d '=' -f 2`
-$MYSQL_BASE_DIR/bin/mysql -h $MYSQL_HOST -P $MYSQL_PORT -u $MYSQL_USER \
-                          --password=$MYSQL_PASSWD -e "drop database if exists $MYSQL_DB; create database $MYSQL_DB" 2> /dev/null 
+##=======================
+## step-1
+##=======================
+#
+## if there is no mysql client on local machine then adjust MYSQL_BASE_DIR accordingly.
+#export MYSQL_BASE_DIR=`grep "basedir" conf/n1.cnf | cut -d '=' -f 2`
+#$MYSQL_BASE_DIR/bin/mysql -h $DB_HOST -P $DB_PORT -u $MYSQL_USER \
+#                          --password=$MYSQL_PASSWD -e "drop database if exists $TEST_DB; create database $TEST_DB" 2> /dev/null
 rm -rf output/$TESTCASE
 mkdir -p output/$TESTCASE
 
@@ -148,7 +146,7 @@ echo -e "\n\n"
 
 #=======================
 # step-5
-# processing result. <usage: script-name $TESTCASE> 
+# processing result. <usage: script-name $TESTCASE>
 #=======================
 echo "Processing result"
 ./process-result/presult.sh $TESTCASE
